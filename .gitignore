@@ -2,6 +2,10 @@
 monitor_report.md
 daily_digest.md
 
+# Secrets — NEVER commit service account keys
+*.json
+!training_status.json
+
 # Python
 __pycache__/
 *.pyc
