@@ -1,0 +1,29 @@
+name: Daily Training Summary
+
+on:
+  schedule:
+    # Daily at 01:00 UTC (09:00 UTC+8)
+    - cron: "0 1 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  digest:
+    runs-on: self-hosted
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for 24h-ago comparison
+
+      - name: Generate daily digest
+        run: |
+          python scripts/daily_digest.py
+
+      - name: Upload daily digest
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-digest-${{ github.run_number }}
+          path: daily_digest.md
+          retention-days: 90

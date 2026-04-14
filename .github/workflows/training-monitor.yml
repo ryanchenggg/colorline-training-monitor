@@ -1,0 +1,29 @@
+name: Training Monitor
+
+on:
+  push:
+    paths:
+      - "training_status.json"
+  workflow_dispatch: {}
+
+jobs:
+  monitor:
+    runs-on: self-hosted
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Need HEAD~1 for comparison
+
+      - name: Run anomaly detection
+        run: |
+          python scripts/monitor_training.py
+
+      - name: Upload monitor report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: monitor-report
+          path: monitor_report.md
+          retention-days: 30

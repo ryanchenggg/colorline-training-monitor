@@ -1,0 +1,7 @@
+# Transient reports (generated per-run, uploaded as artifacts)
+monitor_report.md
+daily_digest.md
+
+# Python
+__pycache__/
+*.pyc

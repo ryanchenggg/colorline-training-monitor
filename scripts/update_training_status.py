@@ -1,0 +1,407 @@
+#!/usr/bin/env python3
+"""
+Scan training checkpoints and generate training_status.md + training_status.json.
+
+Runs via GitHub Actions (self-hosted runner) every 3 hours, or manually:
+  python scripts/update_training_status.py
+
+Scans all v*/checkpoints/ directories under LOG_ROOT.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import subprocess
+from datetime import datetime
+from pathlib import Path
+from typing import Any
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+LOG_ROOT = Path("/storage/HDD20T/ryan/ColoredLineArt")
+OUTPUT_MD = REPO_ROOT / "training_status.md"
+OUTPUT_JSON = REPO_ROOT / "training_status.json"
+
+# ---------------------------------------------------------------------------
+# Known run metadata (fields not derivable from checkpoints alone).
+# Add new runs here when starting training.
+# ---------------------------------------------------------------------------
+RUN_META: dict[str, dict[str, Any]] = {
+    "2026-04-03_14-05-10_lora_r8_a16_decoder_balanced": {
+        "version": "v9-lora",
+        "data": "train2 (synthetic)",
+        "vfi": None,
+        "total_epochs": 2000,
+        "lr": "5e-05",
+        "note": "resumed from ep196 on 0405",
+    },
+    "2026-04-03_14-03-40_balanced_sched_cosine_loss_focal_lovasz_cldice": {
+        "version": "v9-finetune",
+        "data": "train2 (synthetic)",
+        "vfi": None,
+        "total_epochs": 1000,
+        "lr": "1e-04",
+        "note": "full finetune",
+    },
+    "2026-04-13_00-32-23_lora_r8_a16_decoder_balanced": {
+        "version": "v9-lora",
+        "data": "train3 (synthetic+LTX)",
+        "vfi": "LTX-2.3",
+        "total_epochs": 10000,
+        "lr": "5e-05",
+        "note": "stopped ep99 for GPU realloc",
+    },
+    "2026-04-14_09-24-43_lora_r8_a16_decoder_balanced": {
+        "version": "v9-lora",
+        "data": "train4 (1.1-1.2px SS=4)",
+        "vfi": None,
+        "total_epochs": 10000,
+        "lr": "5e-05",
+        "note": "structural 1.1-1.2px, aux 1px, defer_fixed_width",
+    },
+}
+
+# ---------------------------------------------------------------------------
+# Pending / planned runs (not yet started, no checkpoints).
+# ---------------------------------------------------------------------------
+PENDING_RUNS: list[dict[str, str]] = [
+    {
+        "version": "v9-lora-ltx",
+        "data": "train5 (train4+LTX)",
+        "vfi": "LTX-2.3",
+        "status": "data generating",
+        "note": "LTX interpolation on train4 GT; run_train5_pipeline.sh",
+    },
+    {
+        "version": "v9-finetune-ltx",
+        "data": "synthetic+LTX",
+        "vfi": "LTX-2.3",
+        "status": "pending",
+        "note": "needs scheduling",
+    },
+]
+
+
+def load_checkpoint_meta(path: str) -> dict[str, Any]:
+    """Load non-tensor metadata from a .pth checkpoint."""
+    import torch
+
+    try:
+        ckpt = torch.load(path, map_location="cpu", weights_only=False)
+    except Exception:
+        return {}
+
+    skip = {
+        "model_state_dict",
+        "lora_state_dict",
+        "optimizer_state_dict",
+        "scheduler_state_dict",
+    }
+    return {k: v for k, v in ckpt.items() if k not in skip}
+
+
+def scan_run(run_dir: Path, variant: str) -> dict[str, Any] | None:
+    """Scan a single run directory for checkpoint info."""
+    run_id = run_dir.name
+    pth_files = sorted(run_dir.glob("*.pth"))
+    if not pth_files:
+        return None
+
+    # Best checkpoint
+    best_lora = run_dir / "best_lora.pth"
+    best_model = run_dir / "best_model.pth"
+    best_path = (
+        best_lora
+        if best_lora.exists()
+        else (best_model if best_model.exists() else None)
+    )
+    best_meta = load_checkpoint_meta(str(best_path)) if best_path else {}
+
+    # Latest periodic checkpoint (exclude best_*)
+    periodic = [f for f in pth_files if "best" not in f.name]
+    last_meta = load_checkpoint_meta(str(periodic[-1])) if periodic else {}
+
+    # Current epoch: max of best_meta.epoch, last_meta.epoch, filename parse
+    best_ep = best_meta.get("epoch", 0)
+    max_file_ep = 0
+    for f in periodic:
+        parts = f.stem.split("ep")
+        if len(parts) == 2 and parts[1].isdigit():
+            max_file_ep = max(max_file_ep, int(parts[1]))
+    current_ep = max(best_ep, last_meta.get("epoch", 0), max_file_ep)
+
+    last_modified_ts = max(f.stat().st_mtime for f in pth_files)
+
+    info: dict[str, Any] = {
+        "run_id": run_id,
+        "variant": variant,
+        "best_epoch": best_ep,
+        "best_loss": best_meta.get("loss"),
+        "last_epoch": current_ep,
+        "last_loss": last_meta.get("loss") or best_meta.get("loss"),
+        "lora_config": best_meta.get("lora_config") or last_meta.get("lora_config"),
+        "base_checkpoint": best_meta.get("base_checkpoint"),
+        "num_checkpoints": len(pth_files),
+        "start_date": run_id[:10],
+        "last_modified": datetime.fromtimestamp(last_modified_ts).strftime(
+            "%Y-%m-%d %H:%M"
+        ),
+    }
+
+    # Merge known metadata
+    if run_id in RUN_META:
+        info.update(RUN_META[run_id])
+
+    return info
+
+
+def detect_status(info: dict[str, Any]) -> str:
+    """Determine run status based on checkpoint state."""
+    total = info.get("total_epochs", 0)
+    current = info.get("last_epoch", 0)
+
+    if total and current >= total:
+        return "completed"
+
+    # Checkpoint modified recently (within 3.5 hours — matches update cadence)
+    try:
+        last_mod = datetime.strptime(info["last_modified"], "%Y-%m-%d %H:%M")
+        if (datetime.now() - last_mod).total_seconds() < 12600:
+            return "training"
+    except Exception:
+        pass
+
+    if current > 0:
+        return "stopped"
+
+    return "unknown"
+
+
+def format_loss(val: float | None) -> str:
+    if val is None:
+        return "\u2014"
+    return f"{val:.6f}"
+
+
+def discover_variants() -> list[tuple[str, Path]]:
+    """Find all v*/checkpoints/ directories under LOG_ROOT."""
+    variants: list[tuple[str, Path]] = []
+    if not LOG_ROOT.exists():
+        return variants
+    for entry in sorted(LOG_ROOT.iterdir()):
+        ckpt_root = entry / "checkpoints"
+        if entry.is_dir() and ckpt_root.is_dir():
+            variants.append((entry.name, ckpt_root))
+    return variants
+
+
+# ---------------------------------------------------------------------------
+# Output generators
+# ---------------------------------------------------------------------------
+
+
+def generate_markdown(runs: list[dict[str, Any]]) -> str:
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    lines = [
+        "# Training Status",
+        "",
+        f"> Auto-generated by `scripts/update_training_status.py` at {now}",
+        "",
+        "## Active & Completed Runs",
+        "",
+        "| Date | Version | Data | VFI | Status | Best Loss (ep) | Last Loss (ep) | LR | Total Epochs | Progress | Checkpoints | Note |",
+        "|------|---------|------|-----|--------|----------------|----------------|----|-------------|----------|-------------|------|",
+    ]
+
+    for r in runs:
+        status = detect_status(r)
+        status_label = {
+            "completed": "done",
+            "training": "TRAINING",
+            "stopped": "stopped",
+            "unknown": "?",
+        }.get(status, status)
+
+        best_ep = r.get("best_epoch", "?")
+        best_loss = format_loss(r.get("best_loss"))
+        last_ep = r.get("last_epoch", "?")
+        last_loss = format_loss(r.get("last_loss"))
+        total = r.get("total_epochs", "?")
+        progress = f"{last_ep}/{total}" if total else str(last_ep)
+        version = r.get("version", r["run_id"].split("_", 3)[-1][:20])
+        data = r.get("data", "\u2014")
+        vfi = r.get("vfi") or "\u2014"
+        lr = r.get("lr", "\u2014")
+        note = r.get("note", "")
+        num_ckpt = r.get("num_checkpoints", 0)
+        date = r.get("start_date", "")
+
+        lines.append(
+            f"| {date} | {version} | {data} | {vfi} | {status_label} "
+            f"| {best_loss} (ep{best_ep}) | {last_loss} (ep{last_ep}) "
+            f"| {lr} | {total} | {progress} | {num_ckpt} | {note} |"
+        )
+
+    # TensorBoard paths
+    lines.extend(["", "## TensorBoard Logs", ""])
+    for r in runs:
+        run_id = r["run_id"]
+        variant = r.get("variant", "?")
+        version = r.get("version", variant)
+        tb = f"{LOG_ROOT}/{variant}/logs/{run_id}"
+        lines.append(f"- **{version}** `{r.get('start_date', '')}`: `{tb}`")
+
+    # Pending runs
+    lines.extend(
+        [
+            "",
+            "## Pending",
+            "",
+            "| Version | Data | VFI | Status | Note |",
+            "|---------|------|-----|--------|------|",
+        ]
+    )
+    for p in PENDING_RUNS:
+        lines.append(
+            f"| {p['version']} | {p['data']} | {p['vfi']} | {p['status']} | {p['note']} |"
+        )
+
+    lines.extend(["", "---", f"*Last updated: {now}*", ""])
+    return "\n".join(lines)
+
+
+def generate_json(runs: list[dict[str, Any]]) -> str:
+    """Machine-readable status for monitor/digest scripts."""
+    data: dict[str, Any] = {
+        "generated_at": datetime.now().isoformat(),
+        "runs": [],
+        "pending": PENDING_RUNS,
+    }
+    for r in runs:
+        run_data = {
+            "run_id": r["run_id"],
+            "variant": r.get("variant", ""),
+            "version": r.get("version", ""),
+            "data": r.get("data", ""),
+            "vfi": r.get("vfi"),
+            "status": detect_status(r),
+            "best_epoch": r.get("best_epoch", 0),
+            "best_loss": r.get("best_loss"),
+            "last_epoch": r.get("last_epoch", 0),
+            "last_loss": r.get("last_loss"),
+            "lr": r.get("lr", ""),
+            "total_epochs": r.get("total_epochs", 0),
+            "num_checkpoints": r.get("num_checkpoints", 0),
+            "start_date": r.get("start_date", ""),
+            "last_modified": r.get("last_modified", ""),
+            "note": r.get("note", ""),
+            "lora_config": _serialize(r.get("lora_config")),
+            "base_checkpoint": r.get("base_checkpoint"),
+        }
+        data["runs"].append(run_data)
+    return json.dumps(data, indent=2, ensure_ascii=False)
+
+
+def _serialize(obj: Any) -> Any:
+    """Make torch-loaded objects JSON-serializable."""
+    if obj is None:
+        return None
+    if isinstance(obj, dict):
+        return {str(k): _serialize(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [_serialize(x) for x in obj]
+    if isinstance(obj, (int, float, str, bool)):
+        return obj
+    return str(obj)
+
+
+# ---------------------------------------------------------------------------
+# Change detection
+# ---------------------------------------------------------------------------
+
+
+def strip_volatile(s: str) -> str:
+    """Strip timestamp lines for content comparison."""
+    return "\n".join(
+        line
+        for line in s.splitlines()
+        if not line.startswith("*Last updated:")
+        and not line.startswith("> Auto-generated")
+        and not line.strip().startswith('"generated_at"')
+    )
+
+
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--auto-commit",
+        action="store_true",
+        help="Git add, commit, push if changed (for local cron fallback)",
+    )
+    args = parser.parse_args()
+
+    # Scan all variants dynamically
+    all_runs: list[dict[str, Any]] = []
+    for variant_name, ckpt_root in discover_variants():
+        for run_dir in sorted(ckpt_root.iterdir()):
+            if not run_dir.is_dir():
+                continue
+            info = scan_run(run_dir, variant=variant_name)
+            if info:
+                all_runs.append(info)
+
+    # Sort: training first, then by date desc
+    status_order = {"training": 0, "stopped": 1, "completed": 2, "unknown": 3}
+    all_runs.sort(
+        key=lambda r: (
+            status_order.get(detect_status(r), 9),
+            r.get("start_date", ""),
+        )
+    )
+
+    md = generate_markdown(all_runs)
+    js = generate_json(all_runs)
+
+    # Check if content changed (ignore timestamps)
+    old_md = OUTPUT_MD.read_text() if OUTPUT_MD.exists() else ""
+    old_json = OUTPUT_JSON.read_text() if OUTPUT_JSON.exists() else ""
+
+    changed = strip_volatile(md) != strip_volatile(old_md) or strip_volatile(
+        js
+    ) != strip_volatile(old_json)
+
+    if not changed:
+        print("No changes detected, skipping.")
+        return
+
+    OUTPUT_MD.write_text(md)
+    OUTPUT_JSON.write_text(js)
+    print(f"Updated {OUTPUT_MD}")
+    print(f"Updated {OUTPUT_JSON}")
+
+    if args.auto_commit:
+        os.chdir(REPO_ROOT)
+        subprocess.run(
+            ["git", "add", "training_status.md", "training_status.json"], check=True
+        )
+        result = subprocess.run(
+            ["git", "diff", "--cached", "--quiet"], capture_output=True
+        )
+        if result.returncode == 0:
+            print("No git diff, skipping commit.")
+            return
+        subprocess.run(
+            ["git", "commit", "-m", "chore: update training status"], check=True
+        )
+        subprocess.run(["git", "push"], check=True)
+        print("Committed and pushed.")
+
+
+if __name__ == "__main__":
+    main()

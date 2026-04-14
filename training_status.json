@@ -1,0 +1,116 @@
+{
+  "generated_at": "2026-04-14T10:36:03.112300",
+  "runs": [
+    {
+      "run_id": "2026-04-14_09-24-43_lora_r8_a16_decoder_balanced",
+      "variant": "v9-lora",
+      "version": "v9-lora",
+      "data": "train4 (1.1-1.2px SS=4)",
+      "vfi": null,
+      "status": "training",
+      "best_epoch": 100,
+      "best_loss": 0.0009969762024028522,
+      "last_epoch": 100,
+      "last_loss": 0.001216628337524047,
+      "lr": "5e-05",
+      "total_epochs": 10000,
+      "num_checkpoints": 6,
+      "start_date": "2026-04-14",
+      "last_modified": "2026-04-14 10:35",
+      "note": "structural 1.1-1.2px, aux 1px, defer_fixed_width",
+      "lora_config": {
+        "rank": 8,
+        "alpha": 16,
+        "dropout": 0.05,
+        "target": "decoder"
+      },
+      "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
+    },
+    {
+      "run_id": "2026-04-13_00-32-23_lora_r8_a16_decoder_balanced",
+      "variant": "v9-lora",
+      "version": "v9-lora",
+      "data": "train3 (synthetic+LTX)",
+      "vfi": "LTX-2.3",
+      "status": "stopped",
+      "best_epoch": 96,
+      "best_loss": 0.001392341599178811,
+      "last_epoch": 96,
+      "last_loss": 0.0014289736840873957,
+      "lr": "5e-05",
+      "total_epochs": 10000,
+      "num_checkpoints": 5,
+      "start_date": "2026-04-13",
+      "last_modified": "2026-04-14 00:41",
+      "note": "stopped ep99 for GPU realloc",
+      "lora_config": {
+        "rank": 8,
+        "alpha": 16.0,
+        "dropout": 0.05,
+        "target": "decoder"
+      },
+      "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
+    },
+    {
+      "run_id": "2026-04-03_14-03-40_balanced_sched_cosine_loss_focal_lovasz_cldice",
+      "variant": "v9-finetune",
+      "version": "v9-finetune",
+      "data": "train2 (synthetic)",
+      "vfi": null,
+      "status": "completed",
+      "best_epoch": 239,
+      "best_loss": 8.104014904044258e-05,
+      "last_epoch": 1000,
+      "last_loss": 0.00671035358371834,
+      "lr": "1e-04",
+      "total_epochs": 1000,
+      "num_checkpoints": 51,
+      "start_date": "2026-04-03",
+      "last_modified": "2026-04-05 23:53",
+      "note": "full finetune",
+      "lora_config": null,
+      "base_checkpoint": null
+    },
+    {
+      "run_id": "2026-04-03_14-05-10_lora_r8_a16_decoder_balanced",
+      "variant": "v9-lora",
+      "version": "v9-lora",
+      "data": "train2 (synthetic)",
+      "vfi": null,
+      "status": "completed",
+      "best_epoch": 300,
+      "best_loss": 0.000549475186271593,
+      "last_epoch": 2000,
+      "last_loss": 0.038890595535437264,
+      "lr": "5e-05",
+      "total_epochs": 2000,
+      "num_checkpoints": 101,
+      "start_date": "2026-04-03",
+      "last_modified": "2026-04-08 17:31",
+      "note": "resumed from ep196 on 0405",
+      "lora_config": {
+        "rank": 8,
+        "alpha": 16.0,
+        "dropout": 0.05,
+        "target": "decoder"
+      },
+      "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
+    }
+  ],
+  "pending": [
+    {
+      "version": "v9-lora-ltx",
+      "data": "train5 (train4+LTX)",
+      "vfi": "LTX-2.3",
+      "status": "data generating",
+      "note": "LTX interpolation on train4 GT; run_train5_pipeline.sh"
+    },
+    {
+      "version": "v9-finetune-ltx",
+      "data": "synthetic+LTX",
+      "vfi": "LTX-2.3",
+      "status": "pending",
+      "note": "needs scheduling"
+    }
+  ]
+}
