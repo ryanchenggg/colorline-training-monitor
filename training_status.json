@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-14T13:24:52.383972",
+  "generated_at": "2026-04-14T15:47:52.826406",
   "runs": [
     {
       "run_id": "2026-04-14_09-24-43_lora_r8_a16_decoder_balanced",
@@ -10,13 +10,13 @@
       "status": "training",
       "best_epoch": 298,
       "best_loss": 0.00059565577171988,
-      "last_epoch": 320,
+      "last_epoch": 520,
       "last_loss": 0.001216628337524047,
       "lr": "5e-05",
       "total_epochs": 10000,
-      "num_checkpoints": 17,
+      "num_checkpoints": 27,
       "start_date": "2026-04-14",
-      "last_modified": "2026-04-14 13:11",
+      "last_modified": "2026-04-14 15:45",
       "note": "structural 1.1-1.2px, aux 1px, defer_fixed_width",
       "lora_config": {
         "rank": 8,
