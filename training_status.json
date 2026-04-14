@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-14T15:47:52.826406",
+  "generated_at": "2026-04-14T18:16:07.240513",
   "runs": [
     {
       "run_id": "2026-04-14_09-24-43_lora_r8_a16_decoder_balanced",
@@ -10,14 +10,39 @@
       "status": "training",
       "best_epoch": 298,
       "best_loss": 0.00059565577171988,
-      "last_epoch": 520,
+      "last_epoch": 700,
       "last_loss": 0.001216628337524047,
       "lr": "5e-05",
       "total_epochs": 10000,
-      "num_checkpoints": 27,
+      "num_checkpoints": 36,
       "start_date": "2026-04-14",
-      "last_modified": "2026-04-14 15:45",
+      "last_modified": "2026-04-14 18:11",
       "note": "structural 1.1-1.2px, aux 1px, defer_fixed_width",
+      "lora_config": {
+        "rank": 8,
+        "alpha": 16,
+        "dropout": 0.05,
+        "target": "decoder"
+      },
+      "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
+    },
+    {
+      "run_id": "2026-04-14_17-48-11_lora_r8_a16_decoder_balanced",
+      "variant": "v9-lora",
+      "version": "v9-lora",
+      "data": "data/train6",
+      "vfi": null,
+      "status": "training",
+      "best_epoch": 24,
+      "best_loss": 0.0010910916914183058,
+      "last_epoch": 24,
+      "last_loss": 0.0013314597614991822,
+      "lr": "5e-05",
+      "total_epochs": 10000,
+      "num_checkpoints": 2,
+      "start_date": "2026-04-14",
+      "last_modified": "2026-04-14 18:15",
+      "note": "lora r8 a16 decoder | loss=focal_lovasz_cldice sched=cosine",
       "lora_config": {
         "rank": 8,
         "alpha": 16,
