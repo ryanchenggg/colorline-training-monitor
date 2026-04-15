@@ -265,6 +265,29 @@ def generate_markdown(runs: list[dict[str, Any]]) -> str:
         tb = f"{LOG_ROOT}/{variant}/logs/{run_id}"
         lines.append(f"- **{version}** `{r.get('start_date', '')}`: `{tb}`")
 
+    # Dataset legend
+    lines.extend([
+        "",
+        "## Dataset Legend",
+        "",
+        "| Dataset | Type | Structural Width | Aux Lines | VFI | Samples | Design Goal |",
+        "|---------|------|-----------------|-----------|-----|---------|-------------|",
+        "| train | real | original | all | \u2014 | BONES + StudioSeven | Baseline real-motion data |",
+        "| train2 | synthetic | 1.0\u20134.0px (80% in 1\u20132px) | all @ 1px | \u2014 | 2000 seq \u00d7 6f = 12k | Foundational synthetic for V9 LoRA |",
+        "| train3 | synthetic+LTX | same as train2 | all @ 1px | LTX-2.3 | 12k \u00d7 3 variants = 36k | Diffusion-noise robustness |",
+        "| train4 | synthetic | **1.1\u20131.2px** only | all @ 1px | \u2014 | 500 seq \u00d7 6f = 3k | Tight structural line control |",
+        "| train5 | synthetic+LTX | **1.1\u20131.2px** only | all @ 1px | LTX-2.3 | 3k \u00d7 3 variants = 9k | Tight lines + diffusion |",
+        "| train6 | synthetic | 1.1\u20131.2px | **none** (structural only) | \u2014 | 500 seq \u00d7 6f = 3k | Eliminate aux-line noise |",
+        "| train7 | synthetic+LTX | 1.1\u20131.2px | **none** (structural only) | LTX-2.3 | 3k \u00d7 3 variants = 9k | Structural-only + diffusion |",
+        "| train8 | synthetic | 1.1\u20131.2px | **none** + non-overlapping | \u2014 | 500 seq \u00d7 6f = 3k | Cleanest signal: no overlap, no shapes |",
+        "",
+        "**Structural lines**: MainLine (black), ContourLine_A (orange), ContourLine_B (purple)",
+        "**Auxiliary lines**: Highlight_I/II, Shadow_I/II, ColorBoundary_A/B",
+        "",
+        "Progression: train2 \u2192 train4 (tighter widths) \u2192 train6 (structural only) \u2192 train8 (non-overlapping). "
+        "Odd-numbered variants (train3/5/7) add LTX-2.3 diffusion augmentation to their predecessor.",
+    ])
+
     # Pending runs
     lines.extend(
         [

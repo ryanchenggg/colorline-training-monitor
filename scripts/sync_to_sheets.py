@@ -70,6 +70,28 @@ HISTORY_HEADERS = [
     "num_checkpoints",
 ]
 
+# Column layout for the "Datasets" sheet (static reference)
+DATASET_HEADERS = [
+    "dataset",
+    "type",
+    "structural_width",
+    "aux_lines",
+    "vfi",
+    "samples",
+    "design_goal",
+]
+
+DATASET_ROWS = [
+    ["train", "real", "original", "all", "—", "BONES + StudioSeven", "Baseline real-motion data"],
+    ["train2", "synthetic", "1.0–4.0px (80% in 1–2px)", "all @ 1px", "—", "2000 seq × 6f = 12k", "Foundational synthetic for V9 LoRA"],
+    ["train3", "synthetic+LTX", "same as train2", "all @ 1px", "LTX-2.3", "12k × 3 variants = 36k", "Diffusion-noise robustness"],
+    ["train4", "synthetic", "1.1–1.2px only", "all @ 1px", "—", "500 seq × 6f = 3k", "Tight structural line control"],
+    ["train5", "synthetic+LTX", "1.1–1.2px only", "all @ 1px", "LTX-2.3", "3k × 3 variants = 9k", "Tight lines + diffusion"],
+    ["train6", "synthetic", "1.1–1.2px", "none (structural only)", "—", "500 seq × 6f = 3k", "Eliminate aux-line noise"],
+    ["train7", "synthetic+LTX", "1.1–1.2px", "none (structural only)", "LTX-2.3", "3k × 3 variants = 9k", "Structural-only + diffusion"],
+    ["train8", "synthetic", "1.1–1.2px", "none + non-overlapping", "—", "500 seq × 6f = 3k", "Cleanest signal: no overlap, no shapes"],
+]
+
 
 def load_status() -> dict[str, Any]:
     if not STATUS_JSON.exists():
@@ -187,6 +209,24 @@ def sync_history_sheet(
         print("History sheet: no active runs to log")
 
 
+def sync_datasets_sheet(ws: gspread.Worksheet) -> None:
+    """Write the static dataset legend (clear and rewrite each time)."""
+    # Row 1 is the header (created by ensure_sheet), data starts at row 2
+    existing = ws.get_all_values()
+    if len(existing) > 1:
+        # Already has data rows — check if content matches
+        current_data = existing[1:]
+        if current_data == DATASET_ROWS:
+            print("Datasets sheet: unchanged")
+            return
+        # Clear old data rows (keep header)
+        last_row = len(existing)
+        ws.batch_clear([f"A2:G{last_row}"])
+
+    ws.append_rows(DATASET_ROWS, value_input_option="RAW")
+    print(f"Datasets sheet: wrote {len(DATASET_ROWS)} dataset entries")
+
+
 def main() -> None:
     if not Path(KEY_PATH).exists():
         print(f"ERROR: Service account key not found at {KEY_PATH}", file=sys.stderr)
@@ -200,9 +240,11 @@ def main() -> None:
 
     status_ws = ensure_sheet(spreadsheet, "Status", STATUS_HEADERS)
     history_ws = ensure_sheet(spreadsheet, "History", HISTORY_HEADERS)
+    datasets_ws = ensure_sheet(spreadsheet, "Datasets", DATASET_HEADERS)
 
     sync_status_sheet(status_ws, runs)
     sync_history_sheet(history_ws, runs)
+    sync_datasets_sheet(datasets_ws)
 
     print(f"Synced to Google Sheet: https://docs.google.com/spreadsheets/d/{SHEET_ID}")
 
