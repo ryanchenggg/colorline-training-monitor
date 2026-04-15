@@ -143,7 +143,11 @@ def sync_status_sheet(
         run_id = run.get("run_id", "")
         if run_id in run_id_to_row:
             row_num = run_id_to_row[run_id]
-            ws.update(f"A{row_num}:Q{row_num}", [row_data], value_input_option="RAW")
+            ws.update(
+                values=[row_data],
+                range_name=f"A{row_num}:Q{row_num}",
+                value_input_option="RAW",
+            )
         else:
             ws.append_row(row_data, value_input_option="RAW")
 
