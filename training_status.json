@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-14T17:09:34.635428",
+  "generated_at": "2026-04-15T11:50:27.726527",
   "runs": [
     {
       "run_id": "2026-04-14_09-24-43_lora_r8_a16_decoder_balanced",
@@ -10,14 +10,39 @@
       "status": "training",
       "best_epoch": 298,
       "best_loss": 0.00059565577171988,
-      "last_epoch": 620,
-      "last_loss": 0.001216628337524047,
+      "last_epoch": 1640,
+      "last_loss": 0.04291977752980433,
       "lr": "5e-05",
       "total_epochs": 10000,
-      "num_checkpoints": 32,
+      "num_checkpoints": 83,
       "start_date": "2026-04-14",
-      "last_modified": "2026-04-14 17:02",
+      "last_modified": "2026-04-15 11:46",
       "note": "structural 1.1-1.2px, aux 1px, defer_fixed_width",
+      "lora_config": {
+        "rank": 8,
+        "alpha": 16,
+        "dropout": 0.05,
+        "target": "decoder"
+      },
+      "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
+    },
+    {
+      "run_id": "2026-04-14_23-44-17_lora_r8_a16_decoder_mixed_eo300_balanced",
+      "variant": "v9-lora",
+      "version": "v9-lora",
+      "data": "data/train,data/train6",
+      "vfi": null,
+      "status": "training",
+      "best_epoch": 299,
+      "best_loss": 0.04794679126261096,
+      "last_epoch": 300,
+      "last_loss": 0.06119054516679362,
+      "lr": "5e-05",
+      "total_epochs": 1000,
+      "num_checkpoints": 16,
+      "start_date": "2026-04-14",
+      "last_modified": "2026-04-15 11:10",
+      "note": "lora r8 a16 decoder | loss=focal_lovasz_cldice sched=cosine | epoch_offset=300",
       "lora_config": {
         "rank": 8,
         "alpha": 16,
@@ -46,6 +71,31 @@
       "lora_config": {
         "rank": 8,
         "alpha": 16.0,
+        "dropout": 0.05,
+        "target": "decoder"
+      },
+      "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
+    },
+    {
+      "run_id": "2026-04-14_17-48-11_lora_r8_a16_decoder_balanced",
+      "variant": "v9-lora",
+      "version": "v9-lora",
+      "data": "data/train6",
+      "vfi": null,
+      "status": "stopped",
+      "best_epoch": 263,
+      "best_loss": 9.334060106132376e-05,
+      "last_epoch": 263,
+      "last_loss": 0.00020338765860192085,
+      "lr": "5e-05",
+      "total_epochs": 10000,
+      "num_checkpoints": 14,
+      "start_date": "2026-04-14",
+      "last_modified": "2026-04-14 22:44",
+      "note": "lora r8 a16 decoder | loss=focal_lovasz_cldice sched=cosine",
+      "lora_config": {
+        "rank": 8,
+        "alpha": 16,
         "dropout": 0.05,
         "target": "decoder"
       },
