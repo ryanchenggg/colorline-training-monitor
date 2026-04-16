@@ -93,6 +93,21 @@ DATASET_ROWS = [
 ]
 
 
+# Column layout for the "Dataset Status" sheet (dynamic, updated each sync)
+DATASET_STATUS_HEADERS = [
+    "dataset",
+    "type",
+    "design_goal",
+    "status",
+    "colorlines",
+    "gt_images",
+    "midframes",
+    "anilines",
+    "hints",
+    "updated_at",
+]
+
+
 def load_status() -> dict[str, Any]:
     if not STATUS_JSON.exists():
         print(f"ERROR: {STATUS_JSON} not found", file=sys.stderr)
@@ -227,6 +242,37 @@ def sync_datasets_sheet(ws: gspread.Worksheet) -> None:
     print(f"Datasets sheet: wrote {len(DATASET_ROWS)} dataset entries")
 
 
+def sync_dataset_status_sheet(
+    ws: gspread.Worksheet, datasets: list[dict[str, Any]]
+) -> None:
+    """Update the Dataset Status sheet — one row per dataset, clear and rewrite."""
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    # Clear old data rows (keep header)
+    existing = ws.get_all_values()
+    if len(existing) > 1:
+        ws.batch_clear([f"A2:J{len(existing)}"])
+
+    rows: list[list[str]] = []
+    for ds in datasets:
+        rows.append([
+            ds.get("dataset", ""),
+            ds.get("type", ""),
+            ds.get("design_goal", ""),
+            ds.get("status", ""),
+            str(ds.get("colorlines", 0)),
+            str(ds.get("gt_images", 0)),
+            str(ds.get("midframes", 0)),
+            str(ds.get("anilines", 0)),
+            str(ds.get("hints", 0)),
+            now,
+        ])
+
+    if rows:
+        ws.append_rows(rows, value_input_option="RAW")
+    print(f"Dataset Status sheet: wrote {len(rows)} datasets")
+
+
 def main() -> None:
     if not Path(KEY_PATH).exists():
         print(f"ERROR: Service account key not found at {KEY_PATH}", file=sys.stderr)
@@ -234,6 +280,7 @@ def main() -> None:
 
     data = load_status()
     runs = data.get("runs", [])
+    datasets = data.get("datasets", [])
 
     gc = gspread.service_account(filename=KEY_PATH)
     spreadsheet = gc.open_by_key(SHEET_ID)
@@ -241,10 +288,12 @@ def main() -> None:
     status_ws = ensure_sheet(spreadsheet, "Status", STATUS_HEADERS)
     history_ws = ensure_sheet(spreadsheet, "History", HISTORY_HEADERS)
     datasets_ws = ensure_sheet(spreadsheet, "Datasets", DATASET_HEADERS)
+    dataset_status_ws = ensure_sheet(spreadsheet, "Dataset Status", DATASET_STATUS_HEADERS)
 
     sync_status_sheet(status_ws, runs)
     sync_history_sheet(history_ws, runs)
     sync_datasets_sheet(datasets_ws)
+    sync_dataset_status_sheet(dataset_status_ws, datasets)
 
     print(f"Synced to Google Sheet: https://docs.google.com/spreadsheets/d/{SHEET_ID}")
 

@@ -20,6 +20,7 @@ from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 LOG_ROOT = Path("/storage/HDD20T/ryan/ColoredLineArt")
+DATA_ROOT = Path("/storage/SSD3/ryan/programs/ColoredLineArt/data")
 OUTPUT_MD = REPO_ROOT / "training_status.md"
 OUTPUT_JSON = REPO_ROOT / "training_status.json"
 
@@ -197,6 +198,164 @@ def format_loss(val: float | None) -> str:
     return f"{val:.6f}"
 
 
+# ---------------------------------------------------------------------------
+# Dataset scanning
+# ---------------------------------------------------------------------------
+
+# Expected subdirectories for a complete dataset
+_DATASET_SUBDIRS = [
+    "colorlines",
+    "gt_images",
+    "LTX-2",
+    "LTX-2_AniLines_gray",
+    "LTX-2_hints_cotracker",
+]
+
+# Dataset design metadata (static, keyed by directory name)
+DATASET_DESIGN: dict[str, dict[str, str]] = {
+    "train": {
+        "type": "real",
+        "structural_width": "original",
+        "aux_lines": "all",
+        "vfi": "\u2014",
+        "expected_samples": "BONES + StudioSeven",
+        "design_goal": "Baseline real-motion data",
+    },
+    "train2": {
+        "type": "synthetic",
+        "structural_width": "1.0\u20134.0px (80% in 1\u20132px)",
+        "aux_lines": "all @ 1px",
+        "vfi": "\u2014",
+        "expected_samples": "2000 seq \u00d7 6f = 12k",
+        "design_goal": "Foundational synthetic for V9 LoRA",
+    },
+    "train3": {
+        "type": "synthetic+LTX",
+        "structural_width": "same as train2",
+        "aux_lines": "all @ 1px",
+        "vfi": "LTX-2.3",
+        "expected_samples": "12k \u00d7 3 variants = 36k",
+        "design_goal": "Diffusion-noise robustness",
+    },
+    "train4": {
+        "type": "synthetic",
+        "structural_width": "1.1\u20131.2px only",
+        "aux_lines": "all @ 1px",
+        "vfi": "\u2014",
+        "expected_samples": "500 seq \u00d7 6f = 3k",
+        "design_goal": "Tight structural line control",
+    },
+    "train5": {
+        "type": "synthetic+LTX",
+        "structural_width": "1.1\u20131.2px only",
+        "aux_lines": "all @ 1px",
+        "vfi": "LTX-2.3",
+        "expected_samples": "3k \u00d7 3 variants = 9k",
+        "design_goal": "Tight lines + diffusion",
+    },
+    "train6": {
+        "type": "synthetic",
+        "structural_width": "1.1\u20131.2px",
+        "aux_lines": "none (structural only)",
+        "vfi": "\u2014",
+        "expected_samples": "500 seq \u00d7 6f = 3k",
+        "design_goal": "Eliminate aux-line noise",
+    },
+    "train7": {
+        "type": "synthetic+LTX",
+        "structural_width": "1.1\u20131.2px",
+        "aux_lines": "none (structural only)",
+        "vfi": "LTX-2.3",
+        "expected_samples": "3k \u00d7 3 variants = 9k",
+        "design_goal": "Structural-only + diffusion",
+    },
+    "train8": {
+        "type": "synthetic",
+        "structural_width": "1.1\u20131.2px",
+        "aux_lines": "none + non-overlapping",
+        "vfi": "\u2014",
+        "expected_samples": "500 seq \u00d7 6f = 3k",
+        "design_goal": "Cleanest signal: no overlap, no shapes",
+    },
+}
+
+
+def _count_pngs(directory: Path) -> int:
+    """Count PNG files recursively (fast glob)."""
+    if not directory.is_dir():
+        return 0
+    return sum(1 for _ in directory.rglob("*.png"))
+
+
+def scan_datasets() -> list[dict[str, Any]]:
+    """Scan data/train* directories and report file counts + status."""
+    results: list[dict[str, Any]] = []
+    if not DATA_ROOT.exists():
+        return results
+
+    for entry in sorted(DATA_ROOT.iterdir()):
+        if not entry.is_dir() or not entry.name.startswith("train"):
+            continue
+
+        name = entry.name
+        counts: dict[str, int] = {}
+        for sub in _DATASET_SUBDIRS:
+            counts[sub] = _count_pngs(entry / sub)
+
+        # Determine pipeline status
+        has_colorlines = counts["colorlines"] > 0
+        has_gt = counts["gt_images"] > 0
+        has_midframes = counts["LTX-2"] > 0
+        has_anilines = counts["LTX-2_AniLines_gray"] > 0
+        has_hints = counts["LTX-2_hints_cotracker"] > 0
+
+        if has_colorlines and has_gt and has_midframes and has_anilines and has_hints:
+            status = "ready"
+        elif has_midframes and not has_anilines:
+            status = "need AniLines"
+        elif has_anilines and not has_hints:
+            status = "need hints"
+        elif has_midframes and counts["LTX-2"] < _expected_ltx_count(name, counts):
+            status = "LTX generating"
+        elif not has_colorlines and not has_gt and not has_midframes:
+            status = "empty"
+        else:
+            status = "incomplete"
+
+        design = DATASET_DESIGN.get(name, {})
+        results.append({
+            "dataset": name,
+            "type": design.get("type", "?"),
+            "structural_width": design.get("structural_width", "?"),
+            "aux_lines": design.get("aux_lines", "?"),
+            "vfi": design.get("vfi", "\u2014"),
+            "design_goal": design.get("design_goal", ""),
+            "expected_samples": design.get("expected_samples", ""),
+            "status": status,
+            "colorlines": counts["colorlines"],
+            "gt_images": counts["gt_images"],
+            "midframes": counts["LTX-2"],
+            "anilines": counts["LTX-2_AniLines_gray"],
+            "hints": counts["LTX-2_hints_cotracker"],
+        })
+
+    return results
+
+
+def _expected_ltx_count(name: str, counts: dict[str, int]) -> int:
+    """Rough expected LTX-2 count for +LTX datasets (3x base gt_images)."""
+    base_map = {"train3": "train2", "train5": "train4", "train7": "train6"}
+    if name not in base_map:
+        return counts.get("LTX-2", 0)
+    # For +LTX datasets, expect 3× the base gt count
+    base_gt = counts.get("gt_images", 0)
+    if base_gt > 0:
+        return base_gt * 3
+    # Hardcoded fallback
+    expected = {"train3": 36000, "train5": 9000, "train7": 9000}
+    return expected.get(name, 0)
+
+
 def discover_variants() -> list[tuple[str, Path]]:
     """Find all v*/checkpoints/ directories under LOG_ROOT."""
     variants: list[tuple[str, Path]] = []
@@ -214,7 +373,7 @@ def discover_variants() -> list[tuple[str, Path]]:
 # ---------------------------------------------------------------------------
 
 
-def generate_markdown(runs: list[dict[str, Any]]) -> str:
+def generate_markdown(runs: list[dict[str, Any]], datasets: list[dict[str, Any]] | None = None) -> str:
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     lines = [
         "# Training Status",
@@ -288,6 +447,31 @@ def generate_markdown(runs: list[dict[str, Any]]) -> str:
         "Odd-numbered variants (train3/5/7) add LTX-2.3 diffusion augmentation to their predecessor.",
     ])
 
+    # Dataset status (live file counts)
+    if datasets:
+        lines.extend([
+            "",
+            "## Dataset Status",
+            "",
+            "| Dataset | Status | Colorlines | GT Images | Mid-frames | AniLines | Hints |",
+            "|---------|--------|-----------|-----------|------------|----------|-------|",
+        ])
+        for ds in datasets:
+            status_label = {
+                "ready": "\u2705 ready",
+                "need AniLines": "\u23f3 need AniLines",
+                "need hints": "\u23f3 need hints",
+                "LTX generating": "\u23f3 LTX generating",
+                "incomplete": "\u26a0\ufe0f incomplete",
+                "empty": "\u274c empty",
+            }.get(ds["status"], ds["status"])
+            lines.append(
+                f"| {ds['dataset']} | {status_label} "
+                f"| {ds['colorlines']:,} | {ds['gt_images']:,} "
+                f"| {ds['midframes']:,} | {ds['anilines']:,} "
+                f"| {ds['hints']:,} |"
+            )
+
     # Pending runs
     lines.extend(
         [
@@ -307,12 +491,13 @@ def generate_markdown(runs: list[dict[str, Any]]) -> str:
     return "\n".join(lines)
 
 
-def generate_json(runs: list[dict[str, Any]]) -> str:
+def generate_json(runs: list[dict[str, Any]], datasets: list[dict[str, Any]] | None = None) -> str:
     """Machine-readable status for monitor/digest scripts."""
     data: dict[str, Any] = {
         "generated_at": datetime.now().isoformat(),
         "runs": [],
         "pending": PENDING_RUNS,
+        "datasets": datasets or [],
     }
     for r in runs:
         run_data = {
@@ -401,8 +586,11 @@ def main() -> None:
         )
     )
 
-    md = generate_markdown(all_runs)
-    js = generate_json(all_runs)
+    # Scan dataset directories
+    all_datasets = scan_datasets()
+
+    md = generate_markdown(all_runs, datasets=all_datasets)
+    js = generate_json(all_runs, datasets=all_datasets)
 
     # Check if content changed (ignore timestamps)
     old_md = OUTPUT_MD.read_text() if OUTPUT_MD.exists() else ""
