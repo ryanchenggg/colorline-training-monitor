@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-17T00:23:30.481976",
+  "generated_at": "2026-04-17T03:16:33.079325",
   "runs": [
     {
       "run_id": "2026-04-16_10-04-09_lora_r8_a16_decoder_mixed_fixed_balanced",
@@ -8,15 +8,15 @@
       "data": "data/train,data/train9,data/train8",
       "vfi": null,
       "status": "training",
-      "best_epoch": 623,
-      "best_loss": 0.04015727556543425,
-      "last_epoch": 700,
-      "last_loss": 0.067202856997028,
+      "best_epoch": 812,
+      "best_loss": 0.03893233643611893,
+      "last_epoch": 840,
+      "last_loss": 0.04135215317364782,
       "lr": "5e-05",
       "total_epochs": 1000,
-      "num_checkpoints": 36,
+      "num_checkpoints": 43,
       "start_date": "2026-04-16",
-      "last_modified": "2026-04-17 00:19",
+      "last_modified": "2026-04-17 03:10",
       "note": "lora r8 a16 decoder | loss=fixed sched=cosine",
       "lora_config": {
         "rank": 8,
@@ -240,7 +240,7 @@
       "status": "need AniLines",
       "colorlines": 0,
       "gt_images": 0,
-      "midframes": 3426,
+      "midframes": 3993,
       "anilines": 0,
       "hints": 0
     },
