@@ -59,7 +59,13 @@ RUN_META: dict[str, dict[str, Any]] = {
         "vfi": None,
         "total_epochs": 10000,
         "lr": "5e-05",
-        "note": "structural 1.1-1.2px, aux 1px, defer_fixed_width",
+        "note": "structural 1.1-1.2px, aux 1px, defer_fixed_width — killed",
+    },
+    "2026-04-14_23-44-17_lora_r8_a16_decoder_mixed_eo300_balanced": {
+        "note": "mixed train+train9, eo300, superseded → child: 2026-04-17_11-52-17",
+    },
+    "2026-04-17_11-52-17_lora_r8_a16_decoder_mixed_fixed_balanced": {
+        "note": "inherits 2026-04-14_23-44-17; mixed train+train9+train8 (39/60/1%), loss=fixed",
     },
 }
 
@@ -277,6 +283,22 @@ DATASET_DESIGN: dict[str, dict[str, str]] = {
         "expected_samples": "500 seq \u00d7 6f = 3k",
         "design_goal": "Cleanest signal: no overlap, no shapes",
     },
+    "train9": {
+        "type": "synthetic",
+        "structural_width": "1.1\u20131.2px",
+        "aux_lines": "none + non-overlapping",
+        "vfi": "\u2014",
+        "expected_samples": "600 seq \u00d7 6f = 3.6k",
+        "design_goal": "BASELINE: train8 + 50% straight lines + dynamic calcSteps",
+    },
+    "train10": {
+        "type": "synthetic+LTX",
+        "structural_width": "same as train9",
+        "aux_lines": "none + non-overlapping",
+        "vfi": "LTX-2.3",
+        "expected_samples": "3.6k \u00d7 3 variants = 10.8k",
+        "design_goal": "train9 + diffusion augmentation",
+    },
 }
 
 
@@ -344,7 +366,10 @@ def scan_datasets() -> list[dict[str, Any]]:
 
 def _expected_ltx_count(name: str, counts: dict[str, int]) -> int:
     """Rough expected LTX-2 count for +LTX datasets (3x base gt_images)."""
-    base_map = {"train3": "train2", "train5": "train4", "train7": "train6"}
+    base_map = {
+        "train3": "train2", "train5": "train4",
+        "train7": "train6", "train10": "train9",
+    }
     if name not in base_map:
         return counts.get("LTX-2", 0)
     # For +LTX datasets, expect 3× the base gt count
@@ -352,7 +377,7 @@ def _expected_ltx_count(name: str, counts: dict[str, int]) -> int:
     if base_gt > 0:
         return base_gt * 3
     # Hardcoded fallback
-    expected = {"train3": 36000, "train5": 9000, "train7": 9000}
+    expected = {"train3": 36000, "train5": 9000, "train7": 9000, "train10": 10800}
     return expected.get(name, 0)
 
 
@@ -439,12 +464,14 @@ def generate_markdown(runs: list[dict[str, Any]], datasets: list[dict[str, Any]]
         "| train6 | synthetic | 1.1\u20131.2px | **none** (structural only) | \u2014 | 500 seq \u00d7 6f = 3k | Eliminate aux-line noise |",
         "| train7 | synthetic+LTX | 1.1\u20131.2px | **none** (structural only) | LTX-2.3 | 3k \u00d7 3 variants = 9k | Structural-only + diffusion |",
         "| train8 | synthetic | 1.1\u20131.2px | **none** + non-overlapping | \u2014 | 500 seq \u00d7 6f = 3k | Cleanest signal: no overlap, no shapes |",
+        "| **train9** | **synthetic** | **1.1\u20131.2px** | **none** + non-overlapping | **\u2014** | **600 seq \u00d7 6f = 3.6k** | **BASELINE: train8 + 50% straight + dynamic calcSteps** |",
+        "| train10 | synthetic+LTX | same as train9 | none + non-overlapping | LTX-2.3 | 3.6k \u00d7 3 variants = 10.8k | train9 + diffusion augmentation |",
         "",
         "**Structural lines**: MainLine (black), ContourLine_A (orange), ContourLine_B (purple)",
         "**Auxiliary lines**: Highlight_I/II, Shadow_I/II, ColorBoundary_A/B",
         "",
-        "Progression: train2 \u2192 train4 (tighter widths) \u2192 train6 (structural only) \u2192 train8 (non-overlapping). "
-        "Odd-numbered variants (train3/5/7) add LTX-2.3 diffusion augmentation to their predecessor.",
+        "Progression: train2 \u2192 train4 (tighter widths) \u2192 train6 (structural only) \u2192 train8 (non-overlapping) \u2192 **train9 (BASELINE)**. "
+        "Odd-numbered variants (train3/5/7) add LTX-2.3 diffusion augmentation to their predecessor. train10 = train9 + LTX.",
     ])
 
     # Dataset status (live file counts)

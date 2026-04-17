@@ -90,6 +90,8 @@ DATASET_ROWS = [
     ["train6", "synthetic", "1.1–1.2px", "none (structural only)", "—", "500 seq × 6f = 3k", "Eliminate aux-line noise"],
     ["train7", "synthetic+LTX", "1.1–1.2px", "none (structural only)", "LTX-2.3", "3k × 3 variants = 9k", "Structural-only + diffusion"],
     ["train8", "synthetic", "1.1–1.2px", "none + non-overlapping", "—", "500 seq × 6f = 3k", "Cleanest signal: no overlap, no shapes"],
+    ["train9", "synthetic", "1.1–1.2px", "none + non-overlapping", "—", "600 seq × 6f = 3.6k", "BASELINE: train8 + 50% straight + dynamic calcSteps"],
+    ["train10", "synthetic+LTX", "same as train9", "none + non-overlapping", "LTX-2.3", "3.6k × 3 variants = 10.8k", "train9 + diffusion augmentation"],
 ]
 
 
