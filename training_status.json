@@ -1,31 +1,6 @@
 {
-  "generated_at": "2026-04-17T05:43:59.663773",
+  "generated_at": "2026-04-17T10:38:41.573165",
   "runs": [
-    {
-      "run_id": "2026-04-16_10-04-09_lora_r8_a16_decoder_mixed_fixed_balanced",
-      "variant": "v9-lora",
-      "version": "v9-lora",
-      "data": "data/train,data/train9,data/train8",
-      "vfi": null,
-      "status": "training",
-      "best_epoch": 812,
-      "best_loss": 0.03893233643611893,
-      "last_epoch": 960,
-      "last_loss": 0.04133783373981714,
-      "lr": "5e-05",
-      "total_epochs": 1000,
-      "num_checkpoints": 49,
-      "start_date": "2026-04-16",
-      "last_modified": "2026-04-17 05:37",
-      "note": "lora r8 a16 decoder | loss=fixed sched=cosine",
-      "lora_config": {
-        "rank": 8,
-        "alpha": 16,
-        "dropout": 0.05,
-        "target": "decoder"
-      },
-      "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
-    },
     {
       "run_id": "2026-04-13_00-32-23_lora_r8_a16_decoder_balanced",
       "variant": "v9-lora",
@@ -195,6 +170,31 @@
         "target": "decoder"
       },
       "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
+    },
+    {
+      "run_id": "2026-04-16_10-04-09_lora_r8_a16_decoder_mixed_fixed_balanced",
+      "variant": "v9-lora",
+      "version": "v9-lora",
+      "data": "data/train,data/train9,data/train8",
+      "vfi": null,
+      "status": "completed",
+      "best_epoch": 812,
+      "best_loss": 0.03893233643611893,
+      "last_epoch": 1000,
+      "last_loss": 0.04096660832874477,
+      "lr": "5e-05",
+      "total_epochs": 1000,
+      "num_checkpoints": 51,
+      "start_date": "2026-04-16",
+      "last_modified": "2026-04-17 06:26",
+      "note": "lora r8 a16 decoder | loss=fixed sched=cosine",
+      "lora_config": {
+        "rank": 8,
+        "alpha": 16,
+        "dropout": 0.05,
+        "target": "decoder"
+      },
+      "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
     }
   ],
   "pending": [
@@ -240,7 +240,7 @@
       "status": "need AniLines",
       "colorlines": 0,
       "gt_images": 0,
-      "midframes": 4473,
+      "midframes": 5853,
       "anilines": 0,
       "hints": 0
     },
@@ -358,9 +358,9 @@
       "design_goal": "",
       "expected_samples": "",
       "status": "ready",
-      "colorlines": 3000,
-      "gt_images": 3000,
-      "midframes": 3000,
+      "colorlines": 3168,
+      "gt_images": 3168,
+      "midframes": 3168,
       "anilines": 3000,
       "hints": 6000
     },
