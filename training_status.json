@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-18T03:02:16.668516",
+  "generated_at": "2026-04-18T05:42:39.888420",
   "runs": [
     {
       "run_id": "2026-04-17_18-07-24_v10_crossattn_mixed_balanced",
@@ -10,13 +10,13 @@
       "status": "training",
       "best_epoch": 47,
       "best_loss": 0.18205980799700083,
-      "last_epoch": 180,
+      "last_epoch": 240,
       "last_loss": 0.21229856108364306,
       "lr": "",
       "total_epochs": 400,
-      "num_checkpoints": 10,
+      "num_checkpoints": 13,
       "start_date": "2026-04-17",
-      "last_modified": "2026-04-18 02:25",
+      "last_modified": "2026-04-18 05:11",
       "note": "keyframe cross-attention; zero-init identity at warm start",
       "lora_config": null,
       "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
@@ -28,15 +28,15 @@
       "data": "data/train,data/train9,data/train8",
       "vfi": null,
       "status": "training",
-      "best_epoch": 434,
-      "best_loss": 0.04024171584138745,
-      "last_epoch": 480,
+      "best_epoch": 488,
+      "best_loss": 0.0386457970169814,
+      "last_epoch": 540,
       "last_loss": 0.05988450877760586,
       "lr": "5e-05",
       "total_epochs": 1000,
-      "num_checkpoints": 25,
+      "num_checkpoints": 28,
       "start_date": "2026-04-17",
-      "last_modified": "2026-04-18 02:51",
+      "last_modified": "2026-04-18 05:15",
       "note": "inherits 2026-04-14_23-44-17; mixed train+train9+train8 (39/60/1%), loss=fixed",
       "lora_config": {
         "rank": 8,
@@ -285,7 +285,7 @@
       "status": "need AniLines",
       "colorlines": 0,
       "gt_images": 0,
-      "midframes": 7716,
+      "midframes": 7959,
       "anilines": 0,
       "hints": 0
     },
