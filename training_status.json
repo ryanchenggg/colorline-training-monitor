@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-17T15:38:56.764706",
+  "generated_at": "2026-04-17T15:59:03.209623",
   "runs": [
     {
       "run_id": "2026-04-17_11-52-17_lora_r8_a16_decoder_mixed_fixed_balanced",
@@ -8,15 +8,15 @@
       "data": "data/train,data/train9,data/train8",
       "vfi": null,
       "status": "training",
-      "best_epoch": 157,
-      "best_loss": 0.04840582864064919,
-      "last_epoch": 157,
+      "best_epoch": 170,
+      "best_loss": 0.0482198879318802,
+      "last_epoch": 170,
       "last_loss": 0.05988450877760586,
       "lr": "5e-05",
       "total_epochs": 1000,
-      "num_checkpoints": 8,
+      "num_checkpoints": 9,
       "start_date": "2026-04-17",
-      "last_modified": "2026-04-17 15:36",
+      "last_modified": "2026-04-17 15:54",
       "note": "inherits 2026-04-14_23-44-17; mixed train+train9+train8 (39/60/1%), loss=fixed",
       "lora_config": {
         "rank": 8,
@@ -117,7 +117,7 @@
       "num_checkpoints": 28,
       "start_date": "2026-04-14",
       "last_modified": "2026-04-16 09:48",
-      "note": "mixed train+train9, eo300, completed → child: 2026-04-17_11-52-17",
+      "note": "mixed train+train9, eo300, superseded → child: 2026-04-17_11-52-17",
       "lora_config": {
         "rank": 8,
         "alpha": 16,
@@ -265,7 +265,7 @@
       "status": "need AniLines",
       "colorlines": 0,
       "gt_images": 0,
-      "midframes": 6567,
+      "midframes": 6627,
       "anilines": 0,
       "hints": 0
     },
