@@ -1,26 +1,6 @@
 {
-  "generated_at": "2026-04-18T10:29:47.896690",
+  "generated_at": "2026-04-18T13:07:38.641114",
   "runs": [
-    {
-      "run_id": "2026-04-17_18-07-24_v10_crossattn_mixed_balanced",
-      "variant": "v10",
-      "version": "v10",
-      "data": "",
-      "vfi": null,
-      "status": "training",
-      "best_epoch": 47,
-      "best_loss": 0.18205980799700083,
-      "last_epoch": 340,
-      "last_loss": 0.21229856108364306,
-      "lr": "",
-      "total_epochs": 400,
-      "num_checkpoints": 18,
-      "start_date": "2026-04-17",
-      "last_modified": "2026-04-18 09:47",
-      "note": "keyframe cross-attention; zero-init identity at warm start",
-      "lora_config": null,
-      "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
-    },
     {
       "run_id": "2026-04-17_11-52-17_lora_r8_a16_decoder_mixed_fixed_balanced",
       "variant": "v9-lora",
@@ -28,15 +8,15 @@
       "data": "data/train,data/train9,data/train8",
       "vfi": null,
       "status": "training",
-      "best_epoch": 665,
-      "best_loss": 0.03846297756229576,
-      "last_epoch": 665,
+      "best_epoch": 686,
+      "best_loss": 0.037504948724649455,
+      "last_epoch": 740,
       "last_loss": 0.05988450877760586,
       "lr": "5e-05",
       "total_epochs": 1000,
-      "num_checkpoints": 34,
+      "num_checkpoints": 38,
       "start_date": "2026-04-17",
-      "last_modified": "2026-04-18 10:11",
+      "last_modified": "2026-04-18 12:54",
       "note": "inherits 2026-04-14_23-44-17; mixed train+train9+train8 (39/60/1%), loss=fixed",
       "lora_config": {
         "rank": 8,
@@ -240,6 +220,26 @@
         "target": "decoder"
       },
       "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
+    },
+    {
+      "run_id": "2026-04-17_18-07-24_v10_crossattn_mixed_balanced",
+      "variant": "v10",
+      "version": "v10",
+      "data": "",
+      "vfi": null,
+      "status": "completed",
+      "best_epoch": 47,
+      "best_loss": 0.18205980799700083,
+      "last_epoch": 400,
+      "last_loss": 0.21229856108364306,
+      "lr": "",
+      "total_epochs": 400,
+      "num_checkpoints": 21,
+      "start_date": "2026-04-17",
+      "last_modified": "2026-04-18 12:32",
+      "note": "keyframe cross-attention; zero-init identity at warm start",
+      "lora_config": null,
+      "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
     }
   ],
   "pending": [
@@ -285,7 +285,7 @@
       "status": "need AniLines",
       "colorlines": 0,
       "gt_images": 0,
-      "midframes": 8379,
+      "midframes": 8661,
       "anilines": 0,
       "hints": 0
     },
