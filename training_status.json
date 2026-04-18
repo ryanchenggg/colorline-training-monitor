@@ -1,6 +1,26 @@
 {
-  "generated_at": "2026-04-18T23:38:02.465821",
+  "generated_at": "2026-04-19T02:53:15.046592",
   "runs": [
+    {
+      "run_id": "2026-04-19_00-26-54_v10_crossattn_mixed_balanced_stage3_resume",
+      "variant": "v10",
+      "version": "v10",
+      "data": "",
+      "vfi": null,
+      "status": "training",
+      "best_epoch": 539,
+      "best_loss": 0.056666351732258737,
+      "last_epoch": 540,
+      "last_loss": 0.06058637939981724,
+      "lr": "",
+      "total_epochs": 2000,
+      "num_checkpoints": 4,
+      "start_date": "2026-04-19",
+      "last_modified": "2026-04-19 02:27",
+      "note": "keyframe cross-attention; zero-init identity at warm start",
+      "lora_config": null,
+      "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
+    },
     {
       "run_id": "2026-04-13_00-32-23_lora_r8_a16_decoder_balanced",
       "variant": "v9-lora",
@@ -305,7 +325,7 @@
       "status": "need AniLines",
       "colorlines": 0,
       "gt_images": 0,
-      "midframes": 10197,
+      "midframes": 10800,
       "anilines": 0,
       "hints": 0
     },
