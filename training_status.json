@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-18T13:07:38.641114",
+  "generated_at": "2026-04-18T15:10:26.204983",
   "runs": [
     {
       "run_id": "2026-04-17_11-52-17_lora_r8_a16_decoder_mixed_fixed_balanced",
@@ -8,15 +8,15 @@
       "data": "data/train,data/train9,data/train8",
       "vfi": null,
       "status": "training",
-      "best_epoch": 686,
-      "best_loss": 0.037504948724649455,
-      "last_epoch": 740,
-      "last_loss": 0.05988450877760586,
+      "best_epoch": 772,
+      "best_loss": 0.03749319298290893,
+      "last_epoch": 820,
+      "last_loss": 0.04091774735991892,
       "lr": "5e-05",
       "total_epochs": 1000,
-      "num_checkpoints": 38,
+      "num_checkpoints": 42,
       "start_date": "2026-04-17",
-      "last_modified": "2026-04-18 12:54",
+      "last_modified": "2026-04-18 15:03",
       "note": "inherits 2026-04-14_23-44-17; mixed train+train9+train8 (39/60/1%), loss=fixed",
       "lora_config": {
         "rank": 8,
@@ -24,6 +24,26 @@
         "dropout": 0.05,
         "target": "decoder"
       },
+      "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
+    },
+    {
+      "run_id": "2026-04-18_14-32-05_v10_crossattn_mixed_balanced_stage3_resume",
+      "variant": "v10",
+      "version": "v10",
+      "data": "",
+      "vfi": null,
+      "status": "training",
+      "best_epoch": 413,
+      "best_loss": 0.08405180991088089,
+      "last_epoch": 413,
+      "last_loss": 0.08405180991088089,
+      "lr": "",
+      "total_epochs": 500,
+      "num_checkpoints": 1,
+      "start_date": "2026-04-18",
+      "last_modified": "2026-04-18 15:08",
+      "note": "keyframe cross-attention; zero-init identity at warm start",
+      "lora_config": null,
       "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
     },
     {
@@ -285,7 +305,7 @@
       "status": "need AniLines",
       "colorlines": 0,
       "gt_images": 0,
-      "midframes": 8661,
+      "midframes": 8898,
       "anilines": 0,
       "hints": 0
     },
