@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-19T15:21:11.973844",
+  "generated_at": "2026-04-19T17:48:50.845772",
   "runs": [
     {
       "run_id": "2026-04-19_00-26-54_v10_crossattn_mixed_balanced_stage3_resume",
@@ -8,15 +8,15 @@
       "data": "",
       "vfi": null,
       "status": "training",
-      "best_epoch": 901,
-      "best_loss": 0.04112511728645155,
-      "last_epoch": 920,
-      "last_loss": 0.04170362526354821,
+      "best_epoch": 1000,
+      "best_loss": 0.03972128670858709,
+      "last_epoch": 1000,
+      "last_loss": 0.041709198444885645,
       "lr": "",
       "total_epochs": 2000,
-      "num_checkpoints": 23,
+      "num_checkpoints": 27,
       "start_date": "2026-04-19",
-      "last_modified": "2026-04-19 14:43",
+      "last_modified": "2026-04-19 17:17",
       "note": "keyframe cross-attention; zero-init identity at warm start",
       "lora_config": null,
       "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
