@@ -1,26 +1,6 @@
 {
-  "generated_at": "2026-04-21T13:28:29.765353",
+  "generated_at": "2026-04-21T15:52:41.139412",
   "runs": [
-    {
-      "run_id": "2026-04-20_15-27-54_v12_5_corr_film_mixed_balanced",
-      "variant": "v12_5",
-      "version": "v12_5",
-      "data": "",
-      "vfi": null,
-      "status": "training",
-      "best_epoch": 340,
-      "best_loss": 0.03933624339927184,
-      "last_epoch": 360,
-      "last_loss": 0.057964180449121876,
-      "lr": "",
-      "total_epochs": 400,
-      "num_checkpoints": 19,
-      "start_date": "2026-04-20",
-      "last_modified": "2026-04-21 13:19",
-      "note": "V12.5 = cross-attn-driven FiLM (AniGateV2) + decoder cross-attn; shared keyframe encoder",
-      "lora_config": null,
-      "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
-    },
     {
       "run_id": "2026-04-13_00-32-23_lora_r8_a16_decoder_balanced",
       "variant": "v9-lora",
@@ -338,6 +318,26 @@
       "start_date": "2026-04-20",
       "last_modified": "2026-04-21 12:21",
       "note": "V11 FiLM gate on AniLines + V10 cross-attn in decoder; single-phase; zero-init identity at warm start",
+      "lora_config": null,
+      "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
+    },
+    {
+      "run_id": "2026-04-20_15-27-54_v12_5_corr_film_mixed_balanced",
+      "variant": "v12_5",
+      "version": "v12_5",
+      "data": "",
+      "vfi": null,
+      "status": "completed",
+      "best_epoch": 383,
+      "best_loss": 0.03850712568352097,
+      "last_epoch": 400,
+      "last_loss": 0.057964180449121876,
+      "lr": "",
+      "total_epochs": 400,
+      "num_checkpoints": 21,
+      "start_date": "2026-04-20",
+      "last_modified": "2026-04-21 14:38",
+      "note": "V12.5 = cross-attn-driven FiLM (AniGateV2) + decoder cross-attn; shared keyframe encoder",
       "lora_config": null,
       "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
     }
