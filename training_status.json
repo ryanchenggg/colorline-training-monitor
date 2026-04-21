@@ -1,6 +1,26 @@
 {
-  "generated_at": "2026-04-21T15:52:41.139412",
+  "generated_at": "2026-04-21T18:18:44.009974",
   "runs": [
+    {
+      "run_id": "2026-04-21_16-52-32_v13_warp_refine_mixed_balanced",
+      "variant": "v13",
+      "version": "v13",
+      "data": "",
+      "vfi": null,
+      "status": "training",
+      "best_epoch": 36,
+      "best_loss": 0.06763275016687419,
+      "last_epoch": 36,
+      "last_loss": 0.0788705944034614,
+      "lr": "",
+      "total_epochs": 400,
+      "num_checkpoints": 2,
+      "start_date": "2026-04-21",
+      "last_modified": "2026-04-21 18:13",
+      "note": "V13 = AniGateV3 (V12.5 coarse gamma/beta + CorrespondenceWarp + pixel-level refine residual) + decoder cross-attn",
+      "lora_config": null,
+      "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
+    },
     {
       "run_id": "2026-04-13_00-32-23_lora_r8_a16_decoder_balanced",
       "variant": "v9-lora",
