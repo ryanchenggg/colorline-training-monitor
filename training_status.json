@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-22T05:46:19.395904",
+  "generated_at": "2026-04-22T10:38:16.955671",
   "runs": [
     {
       "run_id": "2026-04-21_22-39-04_v13_warp_refine_mixed_kf-colorlines_balanced",
@@ -8,15 +8,15 @@
       "data": "",
       "vfi": null,
       "status": "training",
-      "best_epoch": 187,
-      "best_loss": 0.044608872236782,
-      "last_epoch": 187,
+      "best_epoch": 246,
+      "best_loss": 0.04112538327708056,
+      "last_epoch": 320,
       "last_loss": 0.05487465897673055,
       "lr": "",
       "total_epochs": 400,
-      "num_checkpoints": 10,
+      "num_checkpoints": 17,
       "start_date": "2026-04-21",
-      "last_modified": "2026-04-22 05:36",
+      "last_modified": "2026-04-22 10:32",
       "note": "V13 = AniGateV3 (V12.5 coarse gamma/beta + CorrespondenceWarp + pixel-level refine residual) + decoder cross-attn",
       "lora_config": null,
       "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
