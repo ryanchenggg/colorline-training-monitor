@@ -1,26 +1,6 @@
 {
-  "generated_at": "2026-04-22T13:26:51.422824",
+  "generated_at": "2026-04-22T15:49:14.563501",
   "runs": [
-    {
-      "run_id": "2026-04-21_22-39-04_v13_warp_refine_mixed_kf-colorlines_balanced",
-      "variant": "v13",
-      "version": "v13",
-      "data": "",
-      "vfi": null,
-      "status": "training",
-      "best_epoch": 371,
-      "best_loss": 0.04027778934687376,
-      "last_epoch": 380,
-      "last_loss": 0.05487465897673055,
-      "lr": "",
-      "total_epochs": 400,
-      "num_checkpoints": 20,
-      "start_date": "2026-04-21",
-      "last_modified": "2026-04-22 13:14",
-      "note": "V13 = AniGateV3 (V12.5 coarse gamma/beta + CorrespondenceWarp + pixel-level refine residual) + decoder cross-attn",
-      "lora_config": null,
-      "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
-    },
     {
       "run_id": "2026-04-13_00-32-23_lora_r8_a16_decoder_balanced",
       "variant": "v9-lora",
@@ -378,6 +358,26 @@
       "start_date": "2026-04-20",
       "last_modified": "2026-04-21 14:38",
       "note": "V12.5 = cross-attn-driven FiLM (AniGateV2) + decoder cross-attn; shared keyframe encoder",
+      "lora_config": null,
+      "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
+    },
+    {
+      "run_id": "2026-04-21_22-39-04_v13_warp_refine_mixed_kf-colorlines_balanced",
+      "variant": "v13",
+      "version": "v13",
+      "data": "",
+      "vfi": null,
+      "status": "completed",
+      "best_epoch": 371,
+      "best_loss": 0.04027778934687376,
+      "last_epoch": 400,
+      "last_loss": 0.05487465897673055,
+      "lr": "",
+      "total_epochs": 400,
+      "num_checkpoints": 21,
+      "start_date": "2026-04-21",
+      "last_modified": "2026-04-22 13:58",
+      "note": "V13 = AniGateV3 (V12.5 coarse gamma/beta + CorrespondenceWarp + pixel-level refine residual) + decoder cross-attn",
       "lora_config": null,
       "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
     }
