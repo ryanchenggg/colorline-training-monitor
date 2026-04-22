@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-23T03:15:23.499327",
+  "generated_at": "2026-04-23T05:51:48.906317",
   "runs": [
     {
       "run_id": "2026-04-22_22-06-59_v13_warp_refine_mixed_balanced_resume",
@@ -8,15 +8,15 @@
       "data": "",
       "vfi": null,
       "status": "training",
-      "best_epoch": 208,
-      "best_loss": 0.032285709902153986,
-      "last_epoch": 208,
+      "best_epoch": 301,
+      "best_loss": 0.031496937656284946,
+      "last_epoch": 301,
       "last_loss": 0.03891610675246308,
       "lr": "",
       "total_epochs": 400,
-      "num_checkpoints": 9,
+      "num_checkpoints": 14,
       "start_date": "2026-04-22",
-      "last_modified": "2026-04-23 02:54",
+      "last_modified": "2026-04-23 05:44",
       "note": "V13 Option A = pure-warp FiLM (precomputed CoTracker dense warped_kf -> refine CNN -> gamma/beta). No cross-attn inside gate. Decoder cross-attn unchanged.",
       "lora_config": null,
       "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
