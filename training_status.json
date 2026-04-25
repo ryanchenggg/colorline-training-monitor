@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-25T13:12:28.907805",
+  "generated_at": "2026-04-25T15:18:38.683140",
   "runs": [
     {
       "run_id": "2026-04-25_06-38-31_v14d_flow_mixed_balanced_dil100",
@@ -8,15 +8,15 @@
       "data": "",
       "vfi": null,
       "status": "training",
-      "best_epoch": 190,
-      "best_loss": 0.0528815446519538,
-      "last_epoch": 200,
+      "best_epoch": 220,
+      "best_loss": 0.05099308378014125,
+      "last_epoch": 260,
       "last_loss": 0.06486402981375393,
       "lr": "",
       "total_epochs": 400,
-      "num_checkpoints": 11,
+      "num_checkpoints": 14,
       "start_date": "2026-04-25",
-      "last_modified": "2026-04-25 12:54",
+      "last_modified": "2026-04-25 14:45",
       "note": "V14c = no input FiLM; post-seg_head MainLineGate on logits[:,1] only. KeyframeEncoder stride 8 + decoder cross-attn (optional flow pos bias). Aux line classes 2-9 are untouched by architecture.",
       "lora_config": null,
       "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
