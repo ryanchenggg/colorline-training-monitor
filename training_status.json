@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-28T05:53:54.932090",
+  "generated_at": "2026-04-28T10:57:49.439121",
   "runs": [
     {
       "run_id": "2026-04-28_02-36-28_v15_dil50_to400_flow_mixed_balanced_dil50_resume",
@@ -8,15 +8,15 @@
       "data": "",
       "vfi": null,
       "status": "training",
-      "best_epoch": 205,
-      "best_loss": 0.04580412295303846,
-      "last_epoch": 205,
-      "last_loss": 0.04776842686298646,
+      "best_epoch": 349,
+      "best_loss": 0.04100110842601249,
+      "last_epoch": 360,
+      "last_loss": 0.04474150080625948,
       "lr": "",
       "total_epochs": 400,
-      "num_checkpoints": 6,
+      "num_checkpoints": 14,
       "start_date": "2026-04-28",
-      "last_modified": "2026-04-28 05:52",
+      "last_modified": "2026-04-28 10:41",
       "note": "V15 = V10 keyframe cross-attn + optional CoTracker flow pos bias. No MainLineGate, no warped_kf consumer. Dilation default = 10 (vs V14e's 100) to avoid trained-baked over-suppression of MainLine.",
       "lora_config": null,
       "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
