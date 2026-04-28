@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-28T14:11:46.293940",
+  "generated_at": "2026-04-28T19:06:26.604892",
   "runs": [
     {
       "run_id": "2026-04-13_00-32-23_lora_r8_a16_decoder_balanced",
@@ -797,6 +797,26 @@
       "num_checkpoints": 16,
       "start_date": "2026-04-28",
       "last_modified": "2026-04-28 11:55",
+      "note": "V15 = V10 keyframe cross-attn + optional CoTracker flow pos bias. No MainLineGate, no warped_kf consumer. Dilation default = 10 (vs V14e's 100) to avoid trained-baked over-suppression of MainLine.",
+      "lora_config": null,
+      "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
+    },
+    {
+      "run_id": "2026-04-28_15-11-12_v16_noflow_mixed_balanced_dil10",
+      "variant": "v16",
+      "version": "v15",
+      "data": "",
+      "vfi": null,
+      "status": "completed",
+      "best_epoch": 82,
+      "best_loss": 0.0645138757597459,
+      "last_epoch": 100,
+      "last_loss": 0.0679730107321551,
+      "lr": "",
+      "total_epochs": 100,
+      "num_checkpoints": 6,
+      "start_date": "2026-04-28",
+      "last_modified": "2026-04-28 18:14",
       "note": "V15 = V10 keyframe cross-attn + optional CoTracker flow pos bias. No MainLineGate, no warped_kf consumer. Dilation default = 10 (vs V14e's 100) to avoid trained-baked over-suppression of MainLine.",
       "lora_config": null,
       "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
