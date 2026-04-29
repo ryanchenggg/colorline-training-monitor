@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-29T10:56:21.474412",
+  "generated_at": "2026-04-29T13:56:59.704886",
   "runs": [
     {
       "run_id": "2026-04-28_22-58-53_v16_1_bndGate03_noflow_mixed_balanced_dil20",
@@ -10,13 +10,13 @@
       "status": "training",
       "best_epoch": 348,
       "best_loss": 0.04462867823282355,
-      "last_epoch": 360,
+      "last_epoch": 380,
       "last_loss": 0.06145462026133349,
       "lr": "",
       "total_epochs": 400,
-      "num_checkpoints": 19,
+      "num_checkpoints": 20,
       "start_date": "2026-04-28",
-      "last_modified": "2026-04-29 10:54",
+      "last_modified": "2026-04-29 11:34",
       "note": "V14c = no input FiLM; post-seg_head MainLineGate on logits[:,1] only. KeyframeEncoder stride 8 + decoder cross-attn (optional flow pos bias). Aux line classes 2-9 are untouched by architecture.",
       "lora_config": null,
       "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
