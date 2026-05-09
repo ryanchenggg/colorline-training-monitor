@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-09T03:19:12.879590",
+  "generated_at": "2026-05-09T13:49:30.954934",
   "runs": [
     {
       "run_id": "2026-04-13_00-32-23_lora_r8_a16_decoder_balanced",
@@ -840,6 +840,31 @@
       "note": "V15 = V10 keyframe cross-attn + optional CoTracker flow pos bias. No MainLineGate, no warped_kf consumer. Dilation default = 10 (vs V14e's 100) to avoid trained-baked over-suppression of MainLine.",
       "lora_config": null,
       "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
+    },
+    {
+      "run_id": "2026-05-09_11-23-31_lora_r8_a16_decoder_mixed_eo300_light",
+      "variant": "v9-lora",
+      "version": "v9-lora",
+      "data": "data/train_motion,data/train,data/train10",
+      "vfi": null,
+      "status": "completed",
+      "best_epoch": 4,
+      "best_loss": 0.36280636489391327,
+      "last_epoch": 100,
+      "last_loss": 0.474109282096227,
+      "lr": "5e-05",
+      "total_epochs": 100,
+      "num_checkpoints": 6,
+      "start_date": "2026-05-09",
+      "last_modified": "2026-05-09 12:00",
+      "note": "lora r8 a16 decoder | loss=focal_lovasz_cldice sched=cosine | epoch_offset=300",
+      "lora_config": {
+        "rank": 8,
+        "alpha": 16.0,
+        "dropout": 0.05,
+        "target": "decoder"
+      },
+      "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
     }
   ],
   "pending": [
@@ -1032,12 +1057,12 @@
       "vfi": "—",
       "design_goal": "",
       "expected_samples": "",
-      "status": "need hints",
+      "status": "incomplete",
       "colorlines": 0,
       "gt_images": 1262,
       "midframes": 1262,
       "anilines": 1031,
-      "hints": 0
+      "hints": 1269
     }
   ]
 }
