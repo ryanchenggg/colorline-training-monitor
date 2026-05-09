@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-09T13:49:30.954934",
+  "generated_at": "2026-05-09T21:19:15.465678",
   "runs": [
     {
       "run_id": "2026-04-13_00-32-23_lora_r8_a16_decoder_balanced",
@@ -857,6 +857,31 @@
       "num_checkpoints": 6,
       "start_date": "2026-05-09",
       "last_modified": "2026-05-09 12:00",
+      "note": "lora r8 a16 decoder | loss=focal_lovasz_cldice sched=cosine | epoch_offset=300",
+      "lora_config": {
+        "rank": 8,
+        "alpha": 16.0,
+        "dropout": 0.05,
+        "target": "decoder"
+      },
+      "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
+    },
+    {
+      "run_id": "2026-05-09_19-16-52_lora_r8_a16_decoder_mixed_eo300_motion_light",
+      "variant": "v9-lora",
+      "version": "v9-lora",
+      "data": "data/train_motion,data/train,data/train10",
+      "vfi": null,
+      "status": "completed",
+      "best_epoch": 3,
+      "best_loss": 0.31737661858399707,
+      "last_epoch": 100,
+      "last_loss": 0.46934061249097186,
+      "lr": "5e-05",
+      "total_epochs": 100,
+      "num_checkpoints": 6,
+      "start_date": "2026-05-09",
+      "last_modified": "2026-05-09 19:54",
       "note": "lora r8 a16 decoder | loss=focal_lovasz_cldice sched=cosine | epoch_offset=300",
       "lora_config": {
         "rank": 8,
