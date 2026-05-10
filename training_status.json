@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-10T16:08:45.499230",
+  "generated_at": "2026-05-10T18:16:00.912799",
   "runs": [
     {
       "run_id": "2026-05-10_14-50-28_mixed_motion_v3_light_sched_cosine_loss_focal_lovasz_cldice",
@@ -22,6 +22,26 @@
       "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
     },
     {
+      "run_id": "2026-05-10_16-26-32_mixed_motion_v3_t10full_light_sched_cosine_loss_focal_lovasz_cldice",
+      "variant": "v9-finetune",
+      "version": "v9-finetune",
+      "data": "data/train",
+      "vfi": null,
+      "status": "training",
+      "best_epoch": 25,
+      "best_loss": 0.0026063002671715086,
+      "last_epoch": 60,
+      "last_loss": 0.0033697462405633326,
+      "lr": "5e-05",
+      "total_epochs": 1000,
+      "num_checkpoints": 4,
+      "start_date": "2026-05-10",
+      "last_modified": "2026-05-10 17:59",
+      "note": "loss=focal_lovasz_cldice sched=cosine | base=/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth",
+      "lora_config": null,
+      "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
+    },
+    {
       "run_id": "2026-05-10_14-50-21_lora_r8_a16_decoder_mixed_motion_v3_light",
       "variant": "v9-lora",
       "version": "v9-lora",
@@ -37,6 +57,31 @@
       "num_checkpoints": 5,
       "start_date": "2026-05-10",
       "last_modified": "2026-05-10 15:23",
+      "note": "lora r8 a16 decoder | loss=focal_lovasz_cldice sched=cosine",
+      "lora_config": {
+        "rank": 8,
+        "alpha": 16.0,
+        "dropout": 0.05,
+        "target": "decoder"
+      },
+      "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
+    },
+    {
+      "run_id": "2026-05-10_16-26-30_lora_r8_a16_decoder_mixed_motion_v3_t10full_light",
+      "variant": "v9-lora",
+      "version": "v9-lora",
+      "data": "data/train_motion_v3,data/train10",
+      "vfi": null,
+      "status": "training",
+      "best_epoch": 65,
+      "best_loss": 0.004265199050468464,
+      "last_epoch": 65,
+      "last_loss": 0.004528355092938559,
+      "lr": "1e-05",
+      "total_epochs": 1000,
+      "num_checkpoints": 4,
+      "start_date": "2026-05-10",
+      "last_modified": "2026-05-10 18:06",
       "note": "lora r8 a16 decoder | loss=focal_lovasz_cldice sched=cosine",
       "lora_config": {
         "rank": 8,
