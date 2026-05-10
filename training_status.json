@@ -1,31 +1,6 @@
 {
-  "generated_at": "2026-05-10T23:55:17.812793",
+  "generated_at": "2026-05-11T03:05:36.785993",
   "runs": [
-    {
-      "run_id": "2026-05-10_16-26-30_lora_r8_a16_decoder_mixed_motion_v3_t10full_light",
-      "variant": "v9-lora",
-      "version": "v9-lora",
-      "data": "data/train_motion_v3,data/train10",
-      "vfi": null,
-      "status": "training",
-      "best_epoch": 299,
-      "best_loss": 0.0027887489861593796,
-      "last_epoch": 300,
-      "last_loss": 0.004016948988114914,
-      "lr": "1e-05",
-      "total_epochs": 1000,
-      "num_checkpoints": 16,
-      "start_date": "2026-05-10",
-      "last_modified": "2026-05-10 21:55",
-      "note": "lora r8 a16 decoder | loss=focal_lovasz_cldice sched=cosine",
-      "lora_config": {
-        "rank": 8,
-        "alpha": 16.0,
-        "dropout": 0.05,
-        "target": "decoder"
-      },
-      "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
-    },
     {
       "run_id": "2026-04-13_00-32-23_lora_r8_a16_decoder_balanced",
       "variant": "v9-lora",
@@ -627,6 +602,31 @@
       "num_checkpoints": 5,
       "start_date": "2026-05-10",
       "last_modified": "2026-05-10 15:23",
+      "note": "lora r8 a16 decoder | loss=focal_lovasz_cldice sched=cosine",
+      "lora_config": {
+        "rank": 8,
+        "alpha": 16.0,
+        "dropout": 0.05,
+        "target": "decoder"
+      },
+      "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
+    },
+    {
+      "run_id": "2026-05-10_16-26-30_lora_r8_a16_decoder_mixed_motion_v3_t10full_light",
+      "variant": "v9-lora",
+      "version": "v9-lora",
+      "data": "data/train_motion_v3,data/train10",
+      "vfi": null,
+      "status": "stopped",
+      "best_epoch": 299,
+      "best_loss": 0.0027887489861593796,
+      "last_epoch": 300,
+      "last_loss": 0.004016948988114914,
+      "lr": "1e-05",
+      "total_epochs": 1000,
+      "num_checkpoints": 16,
+      "start_date": "2026-05-10",
+      "last_modified": "2026-05-10 21:55",
       "note": "lora r8 a16 decoder | loss=focal_lovasz_cldice sched=cosine",
       "lora_config": {
         "rank": 8,
