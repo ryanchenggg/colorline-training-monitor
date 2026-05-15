@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-15T19:21:52.789798",
+  "generated_at": "2026-05-15T22:08:10.882971",
   "runs": [
     {
       "run_id": "2026-05-15_18-30-37_mixed_motion_v3_t10full_light_sched_cosine_loss_fixed",
@@ -10,13 +10,13 @@
       "status": "training",
       "best_epoch": 22,
       "best_loss": 0.10845546524685162,
-      "last_epoch": 40,
-      "last_loss": 0.14901716219118008,
+      "last_epoch": 60,
+      "last_loss": 0.16193120643639794,
       "lr": "5e-05",
       "total_epochs": 1000,
-      "num_checkpoints": 3,
+      "num_checkpoints": 4,
       "start_date": "2026-05-15",
-      "last_modified": "2026-05-15 19:07",
+      "last_modified": "2026-05-15 19:26",
       "note": "loss=fixed sched=cosine | base=/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth",
       "lora_config": null,
       "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
