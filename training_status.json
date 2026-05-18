@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-18T11:43:29.208882",
+  "generated_at": "2026-05-18T18:05:35.716952",
   "runs": [
     {
       "run_id": "2026-04-13_00-32-23_lora_r8_a16_decoder_balanced",
@@ -1460,9 +1460,24 @@
       "status": "ready",
       "colorlines": 13078,
       "gt_images": 13078,
-      "midframes": 1236,
+      "midframes": 1598,
       "anilines": 1112,
       "hints": 429
+    },
+    {
+      "dataset": "train_motion_6px",
+      "type": "?",
+      "structural_width": "?",
+      "aux_lines": "?",
+      "vfi": "—",
+      "design_goal": "",
+      "expected_samples": "",
+      "status": "need AniLines",
+      "colorlines": 900,
+      "gt_images": 900,
+      "midframes": 63,
+      "anilines": 0,
+      "hints": 0
     },
     {
       "dataset": "train_motion_v3",
