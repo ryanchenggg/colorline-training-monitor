@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-23T16:20:38.672890",
+  "generated_at": "2026-05-25T11:54:07.481548",
   "runs": [
     {
       "run_id": "2026-04-13_00-32-23_lora_r8_a16_decoder_balanced",
@@ -1472,11 +1472,11 @@
       "vfi": "—",
       "design_goal": "",
       "expected_samples": "",
-      "status": "need hints",
+      "status": "need AniLines",
       "colorlines": 2535,
       "gt_images": 2535,
-      "midframes": 2148,
-      "anilines": 2148,
+      "midframes": 36,
+      "anilines": 0,
       "hints": 0
     },
     {
