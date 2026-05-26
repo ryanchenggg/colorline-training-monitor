@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-26T06:08:57.714014",
+  "generated_at": "2026-05-26T11:36:42.552810",
   "runs": [
     {
       "run_id": "2026-04-13_00-32-23_lora_r8_a16_decoder_balanced",
@@ -1477,7 +1477,7 @@
       "gt_images": 2535,
       "midframes": 2535,
       "anilines": 2535,
-      "hints": 4645
+      "hints": 4984
     },
     {
       "dataset": "train_motion_6px",
