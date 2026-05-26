@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-26T17:57:33.942193",
+  "generated_at": "2026-05-27T04:09:18.898225",
   "runs": [
     {
       "run_id": "2026-04-13_00-32-23_lora_r8_a16_decoder_balanced",
@@ -762,6 +762,26 @@
       "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
     },
     {
+      "run_id": "2026-05-27_00-01-46_mixed_motion46_ssim_t10matched_dil01_light_sched_cosine_loss_fixed",
+      "variant": "v9-finetune",
+      "version": "v9-finetune",
+      "data": "data/train",
+      "vfi": null,
+      "status": "stopped",
+      "best_epoch": 5,
+      "best_loss": 0.44168062237176026,
+      "last_epoch": 5,
+      "last_loss": 0.44168062237176026,
+      "lr": "5e-05",
+      "total_epochs": 1000,
+      "num_checkpoints": 1,
+      "start_date": "2026-05-27",
+      "last_modified": "2026-05-27 00:09",
+      "note": "loss=fixed sched=cosine | base=/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth",
+      "lora_config": null,
+      "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
+    },
+    {
       "run_id": "2026-04-03_14-03-40_balanced_sched_cosine_loss_focal_lovasz_cldice",
       "variant": "v9-finetune",
       "version": "v9-finetune",
@@ -1475,9 +1495,9 @@
       "status": "ready",
       "colorlines": 2535,
       "gt_images": 2535,
-      "midframes": 2535,
-      "anilines": 2535,
-      "hints": 4984
+      "midframes": 2516,
+      "anilines": 2516,
+      "hints": 4144
     },
     {
       "dataset": "train_motion_4px_6px_filter_ssim",
@@ -1488,11 +1508,11 @@
       "design_goal": "",
       "expected_samples": "",
       "status": "ready",
-      "colorlines": 2102,
-      "gt_images": 2102,
-      "midframes": 2102,
-      "anilines": 2102,
-      "hints": 4132
+      "colorlines": 1692,
+      "gt_images": 1692,
+      "midframes": 1692,
+      "anilines": 1692,
+      "hints": 3326
     },
     {
       "dataset": "train_motion_6px",
