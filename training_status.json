@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-27T11:54:13.482806",
+  "generated_at": "2026-05-27T17:51:41.993788",
   "runs": [
     {
       "run_id": "2026-05-27_09-45-21_mixed_motion46_ssim_t10matched_dil01_light_sched_cosine_loss_fixed",
@@ -8,15 +8,15 @@
       "data": "data/train",
       "vfi": null,
       "status": "training",
-      "best_epoch": 68,
-      "best_loss": 0.34157735244794324,
-      "last_epoch": 80,
+      "best_epoch": 252,
+      "best_loss": 0.2925656691870906,
+      "last_epoch": 340,
       "last_loss": 0.3718962838703936,
       "lr": "5e-05",
       "total_epochs": 1000,
-      "num_checkpoints": 5,
+      "num_checkpoints": 18,
       "start_date": "2026-05-27",
-      "last_modified": "2026-05-27 11:33",
+      "last_modified": "2026-05-27 17:28",
       "note": "loss=fixed sched=cosine | base=/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth",
       "lora_config": null,
       "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
