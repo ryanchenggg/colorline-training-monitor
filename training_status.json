@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-01T03:18:20.438981",
+  "generated_at": "2026-06-01T06:00:17.791516",
   "runs": [
     {
       "run_id": "2026-05-31_22-32-47_lora_r8_a16_decoder_mixed_fixed_motion46emt_ssim_t10t20mix_dil1_tol0_light",
@@ -10,13 +10,13 @@
       "status": "training",
       "best_epoch": 190,
       "best_loss": 0.18122550570651105,
-      "last_epoch": 240,
+      "last_epoch": 280,
       "last_loss": 0.3369599721933666,
       "lr": "5e-05",
       "total_epochs": 1000,
-      "num_checkpoints": 13,
+      "num_checkpoints": 15,
       "start_date": "2026-05-31",
-      "last_modified": "2026-06-01 03:03",
+      "last_modified": "2026-06-01 03:48",
       "note": "lora r8 a16 decoder | loss=fixed sched=cosine",
       "lora_config": {
         "rank": 8,
