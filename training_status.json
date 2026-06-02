@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-02T12:02:10.343786",
+  "generated_at": "2026-06-02T18:24:15.473450",
   "runs": [
     {
       "run_id": "2026-06-02_10-44-37_lora_r8_a16_decoder_mixed_fixed_motion46emt_60_35_5_dil0_light",
@@ -8,15 +8,40 @@
       "data": "data/train_motion_4px_6px_filter_ssim_emt,data/train10,data/train",
       "vfi": null,
       "status": "training",
-      "best_epoch": 83,
-      "best_loss": 0.33857653920467085,
-      "last_epoch": 83,
+      "best_epoch": 320,
+      "best_loss": 0.25081801872987014,
+      "last_epoch": 400,
       "last_loss": 0.3430634645315317,
       "lr": "5e-05",
       "total_epochs": 1000,
-      "num_checkpoints": 5,
+      "num_checkpoints": 21,
       "start_date": "2026-06-02",
-      "last_modified": "2026-06-02 12:01",
+      "last_modified": "2026-06-02 16:55",
+      "note": "lora r8 a16 decoder | loss=fixed sched=cosine",
+      "lora_config": {
+        "rank": 8,
+        "alpha": 16.0,
+        "dropout": 0.05,
+        "target": "decoder"
+      },
+      "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
+    },
+    {
+      "run_id": "2026-06-02_17-15-28_lora_r8_a16_decoder_mixed_fixed_motion46emt_60_35_5_dil4_clD15_light",
+      "variant": "v9-lora",
+      "version": "v9-lora",
+      "data": "data/train_motion_4px_6px_filter_ssim_emt,data/train10,data/train",
+      "vfi": null,
+      "status": "training",
+      "best_epoch": 74,
+      "best_loss": 0.45490847871853757,
+      "last_epoch": 74,
+      "last_loss": 0.5173298556071061,
+      "lr": "5e-05",
+      "total_epochs": 1000,
+      "num_checkpoints": 4,
+      "start_date": "2026-06-02",
+      "last_modified": "2026-06-02 18:23",
       "note": "lora r8 a16 decoder | loss=fixed sched=cosine",
       "lora_config": {
         "rank": 8,
