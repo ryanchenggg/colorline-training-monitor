@@ -1,6 +1,31 @@
 {
-  "generated_at": "2026-06-03T04:49:50.133974",
+  "generated_at": "2026-06-03T12:11:34.448666",
   "runs": [
+    {
+      "run_id": "2026-06-03_10-22-01_lora_r16_a32_decoder_mixed_fixed_motion46emt_60_35_5_dil3_cls189_r16_light",
+      "variant": "v9-lora",
+      "version": "v9-lora",
+      "data": "data/train_motion_4px_6px_filter_ssim_emt,data/train10,data/train",
+      "vfi": null,
+      "status": "training",
+      "best_epoch": 97,
+      "best_loss": 0.37580879949606383,
+      "last_epoch": 120,
+      "last_loss": 0.4324388114305643,
+      "lr": "5e-05",
+      "total_epochs": 1000,
+      "num_checkpoints": 7,
+      "start_date": "2026-06-03",
+      "last_modified": "2026-06-03 12:10",
+      "note": "lora r16 a32 decoder | loss=fixed sched=cosine",
+      "lora_config": {
+        "rank": 16,
+        "alpha": 32.0,
+        "dropout": 0.05,
+        "target": "decoder"
+      },
+      "base_checkpoint": "/storage/SSD2/ryan/programs/CL-Pipe/weights/coloredlineart/v9_best_model.pth"
+    },
     {
       "run_id": "2026-04-13_00-32-23_lora_r8_a16_decoder_balanced",
       "variant": "v9-lora",
